@@ -409,7 +409,7 @@ function setupSteppers() {
                 btn = stepper.find('.bs-stepper-content .bs-stepper-pane.active button.step-submit');
             }
 
-            if (btn && !isEnterKey(e)) {
+            if (btn) {
                 btn.trigger('click');
             }
         });
@@ -2795,9 +2795,6 @@ function updateTextbox(action) {
     }
 
     txt.val(action.Value);
-    if (Number.isInteger(action.Size)) {
-        txt[0].rows = action.Size;
-    }
 }
 
 function writeTextbox(action, sender) {
