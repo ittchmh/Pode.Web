@@ -183,6 +183,11 @@ function Set-PodeWebHomePage
         $Navigation,
 
         [Parameter()]
+        [string]
+        $Authentication,
+
+
+        [Parameter()]
         [Alias('NoAuth')]
         [switch]
         $NoAuthentication,
@@ -225,9 +230,20 @@ function Set-PodeWebHomePage
     $pages[$routePath] = $pageMeta
 
     # does the page need auth?
-    $auth = $null
-    if (!$NoAuthentication) {
-        $auth = (Get-PodeWebState -Name 'auth')
+    if ($Authentication) {
+        $auth = $Authentication
+        Set-PodeWebState -Name 'auth' -Value $auth
+        Set-PodeWebState -Name 'auth-props' -Value @{
+            Username = 'Name'
+            Group = 'Groups'
+            Theme = Get-PodeWebTheme
+        }
+    } else {
+        # does the page need auth?
+        $auth = $null    
+        if (!$NoAuthentication) {
+            $auth = (Get-PodeWebState -Name 'auth')
+        }    
     }
 
     # get the endpoints to bind
